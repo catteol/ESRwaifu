@@ -1,10 +1,4 @@
 #!/bin/sh
-files=`find "Source" -type f \( -name \*.png -or -name \*.PNG -or -name \*.jpg -or -name \*.JPG -or -name \*.jpeg -or -name \*.LPEG -or -name \*.ppm -or -name \*.PPM -or -name \*.bmp -or -name \*.BMP \) `
-if [ -z "$files" ]; then
-  echo "No image files found in Source dir. Exit."
-  exit 1
-fi
-
 while getopts m:n:h OPT
 do
   case $OPT in
@@ -25,8 +19,13 @@ if [ ! $FLAG_M ]; then
     echo "Usage: sh $0 -m mode [-n]\nModes:\n\tx2\t\tESRGAN x2\n\tx4\t\tESRGAN x4\n\tresnetx2\tSRResNet x2\nOptions:\n\t-n [0-3]\tJPEG Noise Reduction Level[WIP]\n\t-h\t\tShow help" 1>&2
     exit 1
 fi
-# echo "Choose Scale:\n  1: x2\n  2: x4"
-# read input
+
+files=`find "Source" -type f \( -name \*.png -or -name \*.PNG -or -name \*.jpg -or -name \*.JPG -or -name \*.jpeg -or -name \*.LPEG -or -name \*.ppm -or -name \*.PPM -or -name \*.bmp -or -name \*.BMP \) `
+if [ -z "$files" ]; then
+  echo "No image files found in Source dir. Exit."
+  exit 1
+fi
+
 
 case $MODE in
     "x2" ) cmd="python test.py -opt ../../ESRGANx2_Pix2D.yml"
